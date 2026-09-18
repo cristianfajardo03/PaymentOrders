@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\PaymentOrders.Application\PaymentOrders.Application.csproj" />
+    <ProjectReference Include="..\PaymentOrders.Infrastructure\PaymentOrders.Infrastructure.csproj" />
+    <ProjectReference Include="..\PaymentOrders.Infrastructure.MySqlMigrations\PaymentOrders.Infrastructure.MySqlMigrations.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
+</Project>

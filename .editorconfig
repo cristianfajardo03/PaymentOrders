@@ -1,0 +1,9 @@
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+dotnet_style_qualification_for_field = false:suggestion
+csharp_style_namespace_declarations = file_scoped:suggestion

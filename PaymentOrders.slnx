@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PaymentOrders.Api/PaymentOrders.Api.csproj" />
+    <Project Path="src/PaymentOrders.Application/PaymentOrders.Application.csproj" />
+    <Project Path="src/PaymentOrders.Domain/PaymentOrders.Domain.csproj" />
+    <Project Path="src/PaymentOrders.Infrastructure/PaymentOrders.Infrastructure.csproj" />
+    <Project Path="src/PaymentOrders.Infrastructure.MySqlMigrations/PaymentOrders.Infrastructure.MySqlMigrations.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PaymentOrders.ArchitectureTests/PaymentOrders.ArchitectureTests.csproj" />
+    <Project Path="tests/PaymentOrders.Api.Tests/PaymentOrders.Api.Tests.csproj" />
+    <Project Path="tests/PaymentOrders.ContractTests/PaymentOrders.ContractTests.csproj" />
+    <Project Path="tests/PaymentOrders.Domain.Tests/PaymentOrders.Domain.Tests.csproj" />
+  </Folder>
+</Solution>
