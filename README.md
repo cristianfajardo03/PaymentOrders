@@ -115,24 +115,42 @@ Documenta tus respuestas aquí antes de la defensa:
 
 ### Por qué Factory
 
-_Escribe cómo mantiene a Application y Api independientes de los subtipos concretos, y qué cambio sería necesario al agregar un nuevo tipo de orden._
+Usamos Factory para que las otras partes del programa no tengan que saber qué clase específica deben crear dependiendo del tipo de orden. 
+Entonces dependiendo del tipo de orden, la Factory se encarga de tomar esa decisión y entregar el Builder especifico para ese tipo.
+De esta forma Application y Api no tienen que estar preguntando constantemente qué tipo de orden es ni crear directamente las clases especificas.
+Si quisieramos agregar un nuevo tipo de orden tendríamos que agregar el nuevo tipo en OrderType y actualizar la Factory para que sepa qué hacer con ese nuevo tipo.
 
 ### Por qué Builder
 
-_Explica cómo controla la creación paso a paso y en qué punto valida datos obligatorios y reglas por tipo._
+Usamos Builder porque una orden tiene varios datos que necesitamos configurar antes de poder crearla. Entonces en lugar de crear la orden de una sola vez con muchos datos, podemos ir agregándolos paso a paso:
+Ej: .WithId(), .WithSourceAccount(...) etc. Y finalmente se usa .Build() para revisar que estén los datos necesarios y después se crea la orden correspondiente.
 
 ### Qué ocurriría sin ellos
 
-_Describe qué capas conocerían clases concretas, cómo se duplicarían decisiones y qué efecto tendría sobre mantenimiento y pruebas._
+Sin estos patrones, probablemente tendríamos que poner en otras partes del programa decisiones como dependiendo del tipo de orden crear esta clase o crear esta otra
+Eso haría que Application o Api tuvieran que conocer las clases concretas e involuvrarse demas en la creacion de estas.
+También podríamos terminar repitiendo estas mismas decisiones en diferentes lugares.
+Con estos patrones dejamos la toma de esas desiciones de una forma más organizada y es más fácil cambiar o probar el código.
 
 ### Dónde viven las reglas de negocio
 
-_Identifica las invariantes de monto, cuentas, SWIFT, programación y transición de estados dentro del agregado Domain._
+Las reglas principales están dentro de PaymentOrder. Por ejemplo:
+El monto debe ser mayor que 0 y no superar 1.000.000.
+La cuenta origen y la cuenta destino deben ser diferentes.
+Una orden internacional necesita un código SWIFT válido.
+Una orden programada necesita una fecha futura.
 
 ### Cómo se garantiza idempotencia
 
-_Explica la clave única de `idempotency_records`, la lectura previa y el manejo de solicitudes repetidas en el repositorio._
+La idempotencia sirve para que si llega dos veces la misma solicitud, no terminemos creando dos veces la misma operación.
+El proyecto utiliza idempotency_records con una clave única para identificar una solicitud que ya fue procesada.
+Entonces, antes de procesar una solicitud, se revisa si ya existe ese registro.
+En caso de que existiera previamente se maneja como una solicitud repetida y no se vuelve a procesar de la misma manera.
 
 ### Cómo se protegen las transiciones de estado
 
-_Enumera las transiciones permitidas y cómo `PaymentOrder` rechaza las demás._
+Una orden no puede cambiar de cualquier estado a cualquier otro pare esto en PaymentOrder se controla qué cambio está permitido. Por ejemplo:
+Created → Pending
+Pending → Processing etc,
+Si intentamos hacer un cambio que no corresponde al estado actual, PaymentOrder lanza una excepción y rechaza el cambio.
+
